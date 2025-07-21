@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+class Animal{
+    public: 
+    Animal(){}
+    void eat(){
+        cout << "Animal has eaten food" << endl;
+    }
+    void speak(){
+        cout << "Animal speaks animal noises" << endl;
+    }
+    void play(){
+        cout << "Animal plays" << endl;
+    }
+};
+
+class Lion : public Animal{
+    public:
+    void eat(){
+        cout << "The Lion eats Meat" << endl;
+    }
+    void speak(){
+        cout << "The Lion speaks ROARRR" << endl;
+    }
+    void play(){
+        cout << "The Lion pounces" << endl;
+    }
+};
+
+
+class Elephant : public Animal{
+    public:
+    void eat(){
+        cout << "The Elephant eats Peanuts" << endl;
+    }
+    void speak(){
+        cout << "The Elephant speaks POWAHHHH" << endl;
+    }
+    void play(){
+        cout << "The Elephant wrestles" << endl;
+    }
+};
+
+
+class Frog : public Animal{
+    public:
+    void eat(){
+        cout << "The Frog eats Bugs" << endl;
+    }
+    void speak(){
+        cout << "The Frog speaks RIBBIT" << endl;
+    }
+    void play(){
+        cout << "The Frog hops" << endl;
+    }
+};
+
+
+void feedingTime(AnimalArray[]){
+    
+}
+
+int main(){
+    Animal AnimalArray[5] = {Frog Frog1(), Frog Frog2(), Lion Lion1(), Lion Lion2(), Elephant Elephant()};
+    
+}
+
+ 
