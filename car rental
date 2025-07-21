@@ -1,0 +1,121 @@
+#include <vector>
+#include <iostream>
+using namespace std;
+
+//car rental class
+class CarRental {
+private:
+	string licensePlate;
+	string model;
+	int year;
+	bool rentedStatus;
+	double rentalPricePerDay;
+	double mileage;
+	
+public:
+	CarRental() {}
+
+	CarRental(string licensePlate, string model, int year, double rentalPricePerDay, double mileage, bool rentedStatus) {
+		this -> licensePlate = licensePlate;
+		this -> model = model;
+		this -> year = year;
+		this -> rentalPricePerDay = rentalPricePerDay;
+		this -> mileage = mileage;
+		this -> rentedStatus = rentedStatus;
+	}
+
+	void displayCarInfo() {
+		cout << "licensePlate : " << getlicensePlate() << "\n";
+		cout << "model : " << getmodel() << "\n";
+		cout << "year : " << getyear() << "\n";
+		cout << "rentalPricePerDay : " << getrentalPricePerDay() << "\n";
+		cout << "mileage : " << getmileage() << "\n";
+		
+		if (getrentedStatus()) {
+			cout << "rentedStatus : rented\n";
+		} else {
+			cout << "rentedStatus : available\n";
+		}
+		cout << endl;
+	}
+	
+	// getter
+	string getlicensePlate() {
+		return licensePlate;
+	}
+	string getmodel() {
+		return model;
+	}
+	int getyear() {
+		return year;
+	}
+	double getrentalPricePerDay() {
+		return rentalPricePerDay;
+	}
+	double getmileage() {
+		return mileage;
+	}
+	bool getrentedStatus() {
+		return rentedStatus;
+	}
+
+    // setter
+	void setlicensePlate(string n) {
+		licensePlate = n;
+	}
+	void setmodel(string n) {
+		model = n;
+	}
+	void setyear(int n) {
+		year = n;
+	}
+	void setrentalPricePerDay(double n) {
+		rentalPricePerDay = n;
+	}
+	void setmileage(double n) {
+		mileage = n;
+	}
+
+	bool rentCar() {
+		if (!rentedStatus) {
+			rentedStatus = true;
+			cout << "Car " << licensePlate << " is available to be rented for $" << rentalPricePerDay << " per day.\n";
+			return true;
+		} else {
+			cout << "Car " << licensePlate << " is already rented.\n";
+			return false;
+		}
+	}
+	
+	void returnCar(double additionalMileage) {
+		if (rentedStatus) {
+			rentedStatus = false;
+			mileage += additionalMileage;
+			cout << "Car " << licensePlate << " has been returned and is now available.\n";
+		} else {
+			cout << "Car " << licensePlate << " was not rented.\n";
+		}
+	}
+};
+
+int main() {
+	CarRental car1("ABC123", "Mercedes Benz", 2019, 200, 2000, false);
+	CarRental car2("XYZ789", "Honda Civic", 2021, 57, 18000, false);
+
+	cout << "Car info:\n";
+	cout << "\n";
+	car1.displayCarInfo();
+	car2.displayCarInfo();
+
+	car1.rentCar();
+	car1.rentCar();
+	cout << "Returning " << car1.getmodel() << " Plate: " << car1.getlicensePlate() << " with 150.5 km added...\n";
+	car1.returnCar(150.5);
+	cout << endl;
+	cout << "Updated car info:\n";
+	cout << "\n";
+	car1.displayCarInfo();
+
+}
+
+
