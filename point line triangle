@@ -1,0 +1,178 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+const double pi = 3.141592653589793238462643383279;
+
+class Point {
+public:
+    string name;
+    double xCor;
+    double yCor;
+
+    Point() {}
+
+    Point(string name, double xCor, double yCor) {
+        this->name = name;
+        this->xCor = xCor;
+        this->yCor = yCor;
+    }
+
+    void display() {
+        cout << name << "(" << xCor << "," << yCor << ")\n";
+    }
+};
+
+// Line Class
+class Line {
+public:
+    Point A;
+    Point B;
+
+    Line(Point p1, Point p2) : A(p1), B(p2) {}
+
+    double getSlope() {
+        return (B.yCor - A.yCor) / (B.xCor - A.xCor);
+    }
+
+    double getDistance() {
+        return sqrt(pow(B.xCor - A.xCor, 2) + pow(B.yCor - A.yCor, 2));
+    }
+
+    Point getMidpoint() {
+        double midX = (A.xCor + B.xCor) / 2;
+        double midY = (A.yCor + B.yCor) / 2;
+        return Point("M", midX, midY);
+    }
+};
+
+// Triangle Class
+class Triangle {
+public:
+    Point A, B, C;
+    Line side_a, side_b, side_c;
+    double angle_A, angle_B, angle_C;
+    double area, perimeter;
+    string typeOfTriangle;
+
+    Triangle(Point A, Point B, Point C) 
+        : A(A), B(B), C(C), side_a(B, C), side_b(A, C), side_c(A, B) {
+        if (determineTriangle()) {
+            calculateAngles();
+            area = getArea();
+            perimeter = getPerimeter();
+            determineType();
+        }
+    }
+
+    bool rounding(double a, double b) {
+        return abs(a - b) < 1e-9;
+    }
+
+    bool determineTriangle() {
+        return (side_a.getDistance() + side_c.getDistance() > side_b.getDistance() &&
+                side_a.getDistance() + side_b.getDistance() > side_c.getDistance() &&
+                side_b.getDistance() + side_c.getDistance() > side_a.getDistance());
+    }
+
+    void calculateAngles() {
+        double a = side_a.getDistance();
+        double b = side_b.getDistance();
+        double c = side_c.getDistance();
+
+        angle_A = acos((pow(b, 2) + pow(c, 2) - pow(a, 2)) / (2 * b * c)) * (180.0 / pi);
+        angle_B = acos((pow(a, 2) + pow(c, 2) - pow(b, 2)) / (2 * a * c)) * (180.0 / pi);
+        angle_C = 180 - (angle_A + angle_B);
+    }
+
+    double getArea() {
+        double a = side_a.getDistance();
+        double b = side_b.getDistance();
+        double c = side_c.getDistance();
+        double s = (a + b + c) / 2;
+        return sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+
+    double getPerimeter() {
+        return side_a.getDistance() + side_b.getDistance() + side_c.getDistance();
+    }
+
+    void determineType() {
+        if (rounding(angle_A, 90) || rounding(angle_B, 90) || rounding(angle_C, 90)) {
+            typeOfTriangle = "Right";
+        } else if (angle_A < 90 && angle_B < 90 && angle_C < 90) {
+            typeOfTriangle = "Acute";
+        } else {
+            typeOfTriangle = "Obtuse";
+        }
+
+        double a = side_a.getDistance();
+        double b = side_b.getDistance();
+        double c = side_c.getDistance();
+
+        if (rounding(angle_A, 60) || rounding(angle_B, 60) || rounding(angle_C, 60)) {
+            typeOfTriangle = " Equilateral";
+        } else if (a == b || b == c || a == c) {
+            typeOfTriangle += " Isosceles";
+        } else {
+            typeOfTriangle += " Scalene";
+        }
+    }
+
+    void displayTriangleInfo() {
+        cout << "Triangle vertices: \n";
+        A.display();
+        B.display();
+        C.display();
+
+        if (!determineTriangle()) {
+            cout << "This is not a valid triangle\n";
+            return;
+        }
+
+        cout << "This is a valid triangle\n";
+        cout << "Angles: A = " << angle_A << "°, B = " << angle_B << "°, C = " << angle_C << "°\n";
+        cout << "Perimeter: " << perimeter << "\n";
+        cout << "Area: " << area << "\n";
+        cout << "Type: " << typeOfTriangle << "\n";
+    }
+};
+
+int main() {
+    
+    Point p1("A", 0, 2); //not a triangle
+    Point p2("B", 0, 0);
+    Point p3("C", 0, 3);
+   
+    Point p4("A", 0, 0); //right scalene
+    Point p5("B", 3, 4);
+    Point p6("C", 3, 0);
+    
+    Point p7("A", 0, 0); //acute isosceles
+    Point p8("B", 3, 4); 
+    Point p9("C", 6, 0);
+    
+    Point p10("A", 0, 0); //obtuse scalene
+    Point p11("B", 1, 3);
+    Point p12("C", 3, 4);
+    
+    Point p13("A", 0, 0); // equilateral
+    Point p14("B", 2, 0);
+    Point p15("C", 1, sqrt(3));
+
+    Triangle triangle(p1, p2, p3);
+    Triangle triangle2(p4, p5, p6);
+    Triangle triangle3(p7, p8, p9);
+    Triangle triangle4(p10, p11, p12);
+    Triangle triangle5(p13, p14, p15);
+    triangle.displayTriangleInfo();
+    cout << "\n";
+    triangle2.displayTriangleInfo();
+    cout << "\n";
+    triangle3.displayTriangleInfo();
+    cout << "\n";
+    triangle4.displayTriangleInfo();
+    cout << "\n";
+    triangle5.displayTriangleInfo();
+}
+
