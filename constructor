@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+class TranscriptInfo{
+	public:
+		string name, osis;
+		int grade;
+		double avg;
+
+        TranscriptInfo() {
+            cout << "a transcript has been created" << endl;
+        }
+       
+       //overloading the constructor
+       TranscriptInfo(string name, string osis, int grade, double avg) {
+          this->name = name;
+          this->osis = osis;
+          this->grade = grade;
+          this->avg = avg;
+       }
+       
+       void print(){
+			cout <<name<<"\t"<<osis<<"\t"<<grade<<"\t"<<avg<<endl;
+		}
+
+};
+          
+int main(){
+    TranscriptInfo student1("Adam", "123654987", 10, 79.5), student2("Billy", "123456789", 9, 89.5), student3("Charlie", "987654321", 11, 99.5);
+    
+	student1.print();
+	student2.print();	
+	student3.print();
+
+}
+
+
